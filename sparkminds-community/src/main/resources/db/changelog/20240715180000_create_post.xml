@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="huynnd">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="post"/>
+            </not>
+        </preConditions>
+        <createTable tableName="post">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)">
+            </column>
+            <column name="image_url" type="VARCHAR(255)">
+            </column>
+            <column name="post_type" type="VARCHAR(255)">
+            </column>
+            <column name="total_likes" type="BIGINT" defaultValue="0">
+            </column>
+            <column name="created_date" type="VARCHAR(255)">
+            </column>
+            <column name="FK_USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_delete" type="BOOLEAN" defaultValueBoolean="false">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="post"
+                                 baseColumnNames="FK_USER_ID"
+                                 constraintName="FK_post_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="2" author="huynnd">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="post_like"/>
+            </not>
+        </preConditions>
+        <createTable tableName="post_like">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="is_delete" type="BOOLEAN" defaultValueBoolean="false">
+            </column>
+            <column name="FK_POST_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FK_USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="post_like"
+                                 baseColumnNames="FK_POST_ID"
+                                 constraintName="FK_post_like_post"
+                                 referencedTableName="post"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="post_like"
+                                 baseColumnNames="FK_USER_ID"
+                                 constraintName="FK_post_like_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="3" author="huynnd">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="post_dislike"/>
+            </not>
+        </preConditions>
+        <createTable tableName="post_dislike">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="is_delete" type="BOOLEAN" defaultValueBoolean="false">
+            </column>
+            <column name="FK_POST_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FK_USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="post_dislike"
+                                 baseColumnNames="FK_POST_ID"
+                                 constraintName="FK_post_dislike_post"
+                                 referencedTableName="post"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="post_dislike"
+                                 baseColumnNames="FK_USER_ID"
+                                 constraintName="FK_post_dislike_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="3" author="huynnd">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="post_comment"/>
+            </not>
+        </preConditions>
+        <createTable tableName="post_comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_delete" type="BOOLEAN" defaultValueBoolean="false">
+            </column>
+            <column name="FK_POST_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FK_USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="post_comment"
+                                 baseColumnNames="FK_POST_ID"
+                                 constraintName="FK_post_comment_post"
+                                 referencedTableName="post"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="post_comment"
+                                 baseColumnNames="FK_USER_ID"
+                                 constraintName="FK_post_comment_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>
